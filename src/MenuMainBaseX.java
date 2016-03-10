@@ -1,10 +1,14 @@
+import org.basex.api.client.ClientSession;
+
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
  * Created by 46066294p on 10/03/16.
  */
 public class MenuMainBaseX {
-
+    //comando para abrir baseX: java -jar 'y arrastrar baseX.jar'
+    //ubicacion de archivos mondial, factbook en directorio bin
 
     public static void main(String[] args) throws Exception {
         ejecucion1();
@@ -13,9 +17,12 @@ public class MenuMainBaseX {
     /**
      * Logica y gestion del programa
      */
-    private static void ejecucion1(){
-        System.out.println("EjerciciosM03 ::Marc Cano:: db4o");
+    private static void ejecucion1() throws IOException {
+        System.out.println("BaseX - Xpath M06 ::Marc Cano:: ");
         Scanner input = new Scanner(System.in);
+
+        ClientSession sessio = new ClientSession("localhost", 1984, "admin", "admin");
+
 
         try {
 
@@ -45,10 +52,12 @@ public class MenuMainBaseX {
                     }
 
                     case "1": {
+                        paisosFactbook(sessio);
                         break;
                     }
 
                     case "2": {
+                        quantsPaisosFactbook(sessio);
                         break;
                     }
 
@@ -102,4 +111,46 @@ public class MenuMainBaseX {
             input.close();
         }
     }
+
+
+
+    //:::::::::::::METODES:::::::::::::
+
+    private static void paisosFactbook(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+        // String query = "XQUERY doc('mondial.xml')//mondial/country[name='Spain']" +
+        //"/province[name='Catalonia']/city/name";String query = "XQUERY doc('mondial.xml')//mondial/country[name='Spain']" +
+        String query  = "collection('Factbook.xml')/factbook/record/country";
+        //String result = sessio.execute(query);
+
+        try {
+            System.out.println(sessio.query(query).execute());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + "ms");
+    }
+
+
+    private static void quantsPaisosFactbook(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+
+        String query  = "collection('mondial.xml')/count(/mondial/country)";
+
+        try {
+            System.out.println(sessio.query(query).execute() + " països");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + "ms");
+    }
+
 }
