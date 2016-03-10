@@ -77,6 +77,7 @@ public class MenuMainBaseX {
                     }
 
                     case "6": {
+                        populationShanghai(sessio);
                         break;
                     }
 
@@ -196,16 +197,33 @@ public class MenuMainBaseX {
     private static void peruCities(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
 
-        String query  = "/mondial/country[name=\"Peru\"]/province/city/name/text()";
+        String query  = "collection('mondial.xml')/mondial/country[name=\"Peru\"]/province/city/name/text()";
+        System.out.println("CIUTATS:");
 
         try {
-            System.out.println("Demografia a Uganda al 2014: " + sessio.query(query).execute() + " persones");
+            System.out.println(sessio.query(query).execute());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         long t2 = System.currentTimeMillis();
-        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + " ms");
+    }
+
+
+    private static void populationShanghai(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+
+        String query  = "collection('mondial.xml')//mondial/country/province[name=\"Shanghai\"]/name/text()";
+
+        try {
+            System.out.println(sessio.query(query).execute());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
         System.out.println();
         System.out.println("Executat en " + (t2-t1) + " ms");
     }
