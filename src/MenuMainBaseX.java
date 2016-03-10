@@ -57,19 +57,22 @@ public class MenuMainBaseX {
                     }
 
                     case "2": {
-                        quantsPaisosFactbook(sessio);
+                        quantsPaisosMondial(sessio);
                         break;
                     }
 
                     case "3": {
+                        infoAlemanya(sessio);
                         break;
                     }
 
                     case "4": {
+                        populationUganda(sessio);
                         break;
                     }
 
                     case "5": {
+                        peruCities(sessio);
                         break;
                     }
 
@@ -132,11 +135,11 @@ public class MenuMainBaseX {
         long t2 = System.currentTimeMillis();
         //System.out.println(result);
         System.out.println();
-        System.out.println("Executat en " + (t2-t1) + "ms");
+        System.out.println("Executat en " + (t2-t1) + " ms");
     }
 
 
-    private static void quantsPaisosFactbook(ClientSession sessio) {
+    private static void quantsPaisosMondial(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
 
         String query  = "collection('mondial.xml')/count(/mondial/country)";
@@ -150,7 +153,64 @@ public class MenuMainBaseX {
         long t2 = System.currentTimeMillis();
         //System.out.println(result);
         System.out.println();
-        System.out.println("Executat en " + (t2-t1) + "ms");
+        System.out.println("Executat en " + (t2-t1) + " ms");
     }
 
+
+    private static void infoAlemanya(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+
+        String query  = "collection('mondial.xml')/mondial/country[name=\"Germany\"]";
+
+        try {
+            System.out.println(sessio.query(query).execute());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + " ms");
+    }
+
+
+    private static void populationUganda(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+
+        String query  = "collection('mondial.xml')/mondial/country[name=\"Uganda\"]/population[last()]/text()";
+
+        try {
+            System.out.println("Demografia a Uganda al 2014: " + sessio.query(query).execute() + " persones");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + " ms");
+    }
+
+
+    private static void peruCities(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+
+        String query  = "/mondial/country[name=\"Peru\"]/province/city/name/text()";
+
+        try {
+            System.out.println("Demografia a Uganda al 2014: " + sessio.query(query).execute() + " persones");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        //System.out.println(result);
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + " ms");
+    }
+
+
 }
+
+
