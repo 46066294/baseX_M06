@@ -215,10 +215,10 @@ public class MenuMainBaseX {
     private static void populationShanghai(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
 
-        String query  = "collection('mondial.xml')//mondial/country/province[name=\"Shanghai\"]/name/text()";
+        String query  = "collection('mondial.xml')/mondial/country/province[name=\"Shanghai\"]/population[last()]/text()";
 
         try {
-            System.out.println(sessio.query(query).execute());
+            System.out.println("Gent que viu a Shanghai:" + sessio.query(query).execute());
         } catch (IOException e) {
             e.printStackTrace();
         }
