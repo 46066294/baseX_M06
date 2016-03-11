@@ -4,6 +4,16 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
+ * Obrir servidor baseX (port per defecte 1984
+ * user: admin, password: admin).
+ *
+ * Logica y gestio del programa que respon a les
+ * preguntes plantejades en el menu, utilitzant
+ * consultes Xpath.
+ *
+ * S'utilitzen 2 col·leccions (factbook.xml per a
+ * la primera pregunta, i mondial.xml per a la resta).
+ *
  * Created by 46066294p on 10/03/16.
  */
 public class MenuMainBaseX {
@@ -14,14 +24,13 @@ public class MenuMainBaseX {
         ejecucion1();
     }//main
 
-    /**
-     * Logica y gestion del programa
-     */
+
     private static void ejecucion1() throws IOException {
         System.out.println("BaseX - Xpath M06 ::Marc Cano:: ");
         Scanner input = new Scanner(System.in);
 
         ClientSession sessio = new ClientSession("localhost", 1984, "admin", "admin");
+        System.out.println("\n...sessió oberta correctament");
 
 
         try {
@@ -82,21 +91,7 @@ public class MenuMainBaseX {
                     }
 
                     case "7": {
-                        break;
-
-                    }case "8": {
-                        break;
-                    }
-
-                    case "9": {
-                        break;
-                    }
-
-                    case "10": {
-                        break;
-                    }
-
-                    case "11": {
+                        codiXipre(sessio);
                         break;
                     }
 
@@ -112,7 +107,9 @@ public class MenuMainBaseX {
             e.getStackTrace();
         }
         finally {
+            sessio.close();
             input.close();
+            System.out.println("...sessió tancada");
         }
     }
 
@@ -122,19 +119,17 @@ public class MenuMainBaseX {
 
     private static void paisosFactbook(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
-        // String query = "XQUERY doc('mondial.xml')//mondial/country[name='Spain']" +
-        //"/province[name='Catalonia']/city/name";String query = "XQUERY doc('mondial.xml')//mondial/country[name='Spain']" +
+        System.out.println("Països del fixer factbook:\n");
+
         String query  = "collection('Factbook.xml')/factbook/record/country";
-        //String result = sessio.execute(query);
 
         try {
-            System.out.println(sessio.query(query).execute());
+            System.out.println(sessio.query(query).execute() + " països");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         long t2 = System.currentTimeMillis();
-        //System.out.println(result);
         System.out.println();
         System.out.println("Executat en " + (t2-t1) + " ms");
     }
@@ -142,6 +137,7 @@ public class MenuMainBaseX {
 
     private static void quantsPaisosMondial(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
+        System.out.println("Països del fixer mondial:\n");
 
         String query  = "collection('mondial.xml')/count(/mondial/country)";
 
@@ -160,7 +156,7 @@ public class MenuMainBaseX {
 
     private static void infoAlemanya(ClientSession sessio) {
         long t1 = System.currentTimeMillis();
-
+        System.out.println("Informació sobre Alemanya:\n");
         String query  = "collection('mondial.xml')/mondial/country[name=\"Germany\"]";
 
         try {
@@ -170,7 +166,6 @@ public class MenuMainBaseX {
         }
 
         long t2 = System.currentTimeMillis();
-        //System.out.println(result);
         System.out.println();
         System.out.println("Executat en " + (t2-t1) + " ms");
     }
@@ -188,7 +183,6 @@ public class MenuMainBaseX {
         }
 
         long t2 = System.currentTimeMillis();
-        //System.out.println(result);
         System.out.println();
         System.out.println("Executat en " + (t2-t1) + " ms");
     }
@@ -198,7 +192,7 @@ public class MenuMainBaseX {
         long t1 = System.currentTimeMillis();
 
         String query  = "collection('mondial.xml')/mondial/country[name=\"Peru\"]/province/city/name/text()";
-        System.out.println("CIUTATS:");
+        System.out.println("CIUTATS DE PERU:");
 
         try {
             System.out.println(sessio.query(query).execute());
@@ -218,7 +212,24 @@ public class MenuMainBaseX {
         String query  = "collection('mondial.xml')/mondial/country/province[name=\"Shanghai\"]/population[last()]/text()";
 
         try {
-            System.out.println("Gent que viu a Shanghai:" + sessio.query(query).execute());
+            System.out.println("Gent que viu a Shanghai: " + sessio.query(query).execute() + " persones");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        long t2 = System.currentTimeMillis();
+        System.out.println();
+        System.out.println("Executat en " + (t2-t1) + " ms");
+    }
+
+    private static void codiXipre(ClientSession sessio) {
+        long t1 = System.currentTimeMillis();
+        System.out.println("Matriculació de Xipre:");
+
+        String query  = "collection('mondial.xml')/mondial/country[name=\"Cyprus\"]/@car_code";
+
+        try {
+            System.out.println(sessio.query(query).execute());
         } catch (IOException e) {
             e.printStackTrace();
         }

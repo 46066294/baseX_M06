@@ -1,0 +1,18 @@
+Pràctica 2 – BaseX
+==================
+
+Executeu un servidor BaseX. Implementeu un programa en Java que
+permeti accedir a recursos XML, emprant llibreries XQJ per a BaseX.
+Feu un programa que resolgui les preguntes següents mitjançant
+consultes Xpath o XQuery:
+
+    • Quins països hi ha en el fitxer «factbook.xml»?
+    • Quants països hi ha?
+    • Quina és la informació sobre Alemanya ?
+    • Quanta gent viu a Uganda segons aquest fitxer?
+    • Quines són les ciutats de Perú que recull aquest fitxer?
+    • Quanta gent viu a Shanghai?
+    • Quin és el codi de matricula de cotxe de Xipre?
+
+Menú contextual que digui les preguntes, i pitjant surti la resposta. Evidentment la
+instrucció Xpath o Xquery ha de ser al codi font.
